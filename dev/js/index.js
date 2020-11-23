@@ -2,6 +2,10 @@ let rows = 50;
 let columns = 50;
 let map = [rows];
 let snake = [];
+let up = false;
+let right = true;
+let down = false;
+let left = false;
 
 function  initialize()
 {
@@ -16,9 +20,21 @@ function  initialize()
   snake[0][1] = 30; //Initial position -X- coordinate
 }
 
+function  choseDirection(direction)
+{
+
+}
+
 function  snakeMovement()
 {
-  snake[0][1] += 1;
+  if (up == true)
+    snake[0][0] += 1;
+  else if (right == true)
+    snake[0][1] += 1;
+  else if (down == true)
+    snake[0][0] -= 1;
+  else if (left == true)
+    snake[0][1] += 1;
   drawMovement();
 }
 
