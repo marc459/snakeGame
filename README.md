@@ -4,4 +4,3 @@ This is a game created with the only purpose of learning web development tecnolo
 Empaqutador a Produccion
 - Webpack
 - Gulp
--spaguuetti
