@@ -4,7 +4,7 @@ let maxSnake = 100;
 let map = new Array(rows);
 let snake = new Array(maxSnake);
 let up = false;
-let right = true;
+let right = false;
 let down = false;
 let left = false;
 
@@ -48,13 +48,13 @@ function  choseDirection(direction)
 function  snakeMovement()
 {
   if (up == true)
-    snake[0][0] += 1;
+    snake[0][0] -= 1;
   else if (right == true)
     snake[0][1] += 1;
   else if (down == true)
-    snake[0][0] -= 1;
+    snake[0][0] += 1;
   else if (left == true)
-    snake[0][1] += 1;
+    snake[0][1] -= 1;
 
   if (snake[0][0] == rows)
     snake[0][0] = 0;
@@ -94,5 +94,6 @@ function  drawMovement()
 }*/
 
 window.onload = initialize();
+window.onload = choseDirection("up");
 window.onload = drawMovement();
 //window.onload = caller();
