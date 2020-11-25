@@ -1,5 +1,5 @@
-let rows = 10;
-let columns = 10;
+let rows = 15;
+let columns = 15;
 let maxSnake = 100;
 let map = new Array(rows);
 let snake = new Array(maxSnake);
@@ -7,20 +7,16 @@ let up = false;
 let right = false;
 let down = false;
 let left = false;
-let timer;
+let canvas;
 let lienzo;
+let speed = 500; //lower is faster
 
 
 function  initialize()
 {
-	timer = document.getElementById("canvas");
-	lienzo = timer.getContext("2d");
-	
-  	document.addEventListener('keydown', choseDirection);
-	
-	let x = 0;
-	let y = 0;
-
+	canvas = document.getElementById("canvas");
+	lienzo = canvas.getContext("2d");
+	document.addEventListener('keydown', choseDirection);
   for (let r = 0; r < rows; r++)
   {
     map[r] = new Array(columns);
@@ -29,12 +25,9 @@ function  initialize()
   {
     for (let j = 0; j < columns; j++)
     {
-		lienzo.strokeRect(x,y,20,20);
+		lienzo.strokeRect(j*canvas.width/rows,i*canvas.height/columns,canvas.width/rows,canvas.height/columns);
 		 map[i][j] = 0;
-		 x = x + 20;
-	}
-	y = y + 20;
-	x = 0;
+	  }
   }
   for (let m = 0; m < maxSnake; m++)
   {
@@ -59,12 +52,11 @@ function  choseDirection(e)
     down = true;
   else if (key == "ArrowLeft")
     left = true;
-  snakeMovement(); //This should be authomatic, this line must be removed.
 }
 
 function  snakeMovement()
 {
-  //alert("carajaula");
+  //Movement in the correct direction
   if (up == true)
     snake[0][0] -= 1;
   else if (right == true)
@@ -73,7 +65,7 @@ function  snakeMovement()
     snake[0][0] += 1;
   else if (left == true)
     snake[0][1] -= 1;
-
+  //Wrapping
   if (snake[0][0] == rows)
     snake[0][0] = 0;
   if (snake[0][0] < 0)
@@ -91,34 +83,24 @@ function  drawMovement()
   {
     for (let j = 0; j < columns; j++)
     {
-
-		
-	  if (snake[0][0] == i && snake[0][1] == j)
-	  {
-		lienzo.fillRect(j*20,i*20,20,20);
-		map[i][j] = 1;
-	  }
-	  else
-	  {
-		lienzo.clearRect(j*20,i*20,20,20);
-		map[i][j] = 0;
-	  }
-        
+  	  if (snake[0][0] == i && snake[0][1] == j)
+  	  {
+    		map[i][j] = 1;
+        lienzo.fillRect(j*canvas.width/rows,i*canvas.height/columns,canvas.width/rows,canvas.height/columns);
+  	  }
+  	  else
+  	  {
+    		lienzo.clearRect(j*canvas.width/rows,i*canvas.height/columns,canvas.width/rows,canvas.height/columns);
+    		map[i][j] = 0;
+  	  }
     }
   }
-
-
   for (let k = 0; k < rows; k++)
   {
     console.log(map[k]);
   }
 }
 
-
-//window.onload = initialize();
-//window.onload = drawMovement();
 window.addEventListener("load",initialize,false);
 window.addEventListener("load",drawMovement,false);
-setInterval(snakeMovement, 1000);
-
-
+setInterval(snakeMovement, speed);
