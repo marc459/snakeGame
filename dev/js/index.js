@@ -29,24 +29,27 @@ function  initialize()
   snake[0][1] = 5; //Initial position -X- coordinate
 }
 
-function  choseDirection(direction)
+function  choseDirection(e)
 {
+  let key = e.code;
   up = false;
   right = false;
   down = false;
   left = false;
-  if (direction == "up")
+  if (key == "ArrowUp")
     up = true;
-  else if (direction == "right")
+  else if (key == "ArrowRight")
     right = true;
-  else if (direction == "down")
+  else if (key == "ArrowDown")
     down = true;
-  else if (direction == "left")
+  else if (key == "ArrowLeft")
     left = true;
+  snakeMovement(); //This should be authomatic, this line must be removed.
 }
 
 function  snakeMovement()
 {
+  //alert("carajaula");
   if (up == true)
     snake[0][0] -= 1;
   else if (right == true)
@@ -87,13 +90,15 @@ function  drawMovement()
   }
 }
 
-/*function  caller()
+function  caller()
 {
-  let timer = document.getElementsByClassName("hola");
-  timer.addEventListener('click' , drawMovement(), false);
-}*/
+  let timer = document.getElementById("canvas");
+  timer.addEventListener('mouseover' , snakeMovement, false);
+  document.addEventListener('keydown', choseDirection)
+
+}
 
 window.onload = initialize();
 window.onload = choseDirection("up");
 window.onload = drawMovement();
-//window.onload = caller();
+window.onload = caller();
