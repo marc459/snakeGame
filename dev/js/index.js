@@ -9,7 +9,7 @@ let down = false;
 let left = false;
 let canvas;
 let lienzo;
-let speed = 500; //lower is faster
+let speed = 50; //lower is faster
 
 
 function  initialize()
@@ -56,7 +56,13 @@ function  choseDirection(e)
 
 function  snakeMovement()
 {
-  //Movement in the correct direction
+  //Body movement
+  for (let i = snake.length - 1; i > 0; i--)
+  {
+    snake[i][0] = snake[i-1][0];
+    snake[i][1] = snake[i-1][1];
+  }
+  //Head movement in the correct direction
   if (up == true)
     snake[0][0] -= 1;
   else if (right == true)
@@ -83,21 +89,19 @@ function  drawMovement()
   {
     for (let j = 0; j < columns; j++)
     {
-  	  if (snake[0][0] == i && snake[0][1] == j)
-  	  {
-    		map[i][j] = 1;
-        lienzo.fillRect(j*canvas.width/rows,i*canvas.height/columns,canvas.width/rows,canvas.height/columns);
-  	  }
-  	  else
-  	  {
-    		lienzo.clearRect(j*canvas.width/rows,i*canvas.height/columns,canvas.width/rows,canvas.height/columns);
-    		map[i][j] = 0;
-  	  }
+      lienzo.clearRect(j*canvas.width/rows,i*canvas.height/columns,canvas.width/rows+2,canvas.height/columns+2);
     }
   }
-  for (let k = 0; k < rows; k++)
+  for (let i = 0; i < rows; i++)
   {
-    console.log(map[k]);
+    for (let j = 0; j < columns; j++)
+    {
+      for (let k = 0; k < 30; k++)
+      {
+        if (snake[k][0] == i && snake[k][1] == j)
+          lienzo.fillRect(j*canvas.width/rows,i*canvas.height/columns,canvas.width/rows,canvas.height/columns);
+      }
+    }
   }
 }
 
