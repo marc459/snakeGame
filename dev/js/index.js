@@ -7,9 +7,20 @@ let up = false;
 let right = false;
 let down = false;
 let left = false;
+let timer;
+let lienzo;
+
 
 function  initialize()
 {
+	timer = document.getElementById("canvas");
+	lienzo = timer.getContext("2d");
+	
+  	document.addEventListener('keydown', choseDirection);
+	
+	let x = 0;
+	let y = 0;
+
   for (let r = 0; r < rows; r++)
   {
     map[r] = new Array(columns);
@@ -18,8 +29,12 @@ function  initialize()
   {
     for (let j = 0; j < columns; j++)
     {
-      map[i][j] = 0;
-    }
+		lienzo.strokeRect(x,y,20,20);
+		 map[i][j] = 0;
+		 x = x + 20;
+	}
+	y = y + 20;
+	x = 0;
   }
   for (let m = 0; m < maxSnake; m++)
   {
@@ -76,10 +91,19 @@ function  drawMovement()
   {
     for (let j = 0; j < columns; j++)
     {
-      if (snake[0][0] == i && snake[0][1] == j)
-        map[i][j] = 1;
-      else
-        map[i][j] = 0;
+
+		
+	  if (snake[0][0] == i && snake[0][1] == j)
+	  {
+		lienzo.fillRect(j*20,i*20,20,20);
+		map[i][j] = 1;
+	  }
+	  else
+	  {
+		lienzo.clearRect(j*20,i*20,20,20);
+		map[i][j] = 0;
+	  }
+        
     }
   }
 
@@ -90,15 +114,11 @@ function  drawMovement()
   }
 }
 
-function  caller()
-{
-  let timer = document.getElementById("canvas");
-  timer.addEventListener('mouseover' , snakeMovement, false);
-  document.addEventListener('keydown', choseDirection)
 
-}
+//window.onload = initialize();
+//window.onload = drawMovement();
+window.addEventListener("load",initialize,false);
+window.addEventListener("load",drawMovement,false);
+setInterval(snakeMovement, 1000);
 
-window.onload = initialize();
-window.onload = choseDirection("up");
-window.onload = drawMovement();
-window.onload = caller();
+
