@@ -32,6 +32,10 @@ function  initialize()
     snake[i] = new Array(2);
   snake[0][0] = 5; //Initial position -Y- coordinate
   snake[0][1] = 5; //Initial position -X- coordinate
+	map[3][3] = 2; //Apple test, erase later
+	map[4][3] = 2; //Apple test, erase later
+	map[10][5] = 2; //Apple test, erase later
+	map[3][8] = 2; //Apple test, erase later
 }
 
 function  choseDirection(e)
@@ -54,6 +58,8 @@ function  choseDirection(e)
 function  snakeMovement()
 {
   //Body movement
+	//if (snake.length > 1)
+		//map[snake[snake.length - 1][0]][snake[snake.length - 1][1]] = 0
   for (let i = snake.length - 1; i > 0; i--)
   {
     snake[i][0] = snake[i-1][0];
@@ -77,19 +83,44 @@ function  snakeMovement()
     snake[0][1] = 0
   if (snake[0][1] < 0)
     snake[0][1] = columns - 1;
+	drawMapElements();
   drawMovement();
+	eatApple();
 }
 
 function  drawMovement()
 {
   for (let i = 0; i < rows; i++)
     for (let j = 0; j < columns; j++)
-      lienzo.clearRect(j*canvas.width/rows,i*canvas.height/columns,canvas.width/rows+2,canvas.height/columns+2);
+			if (map[i][j] == 0)
+      	lienzo.clearRect(j*canvas.width/rows,i*canvas.height/columns,canvas.width/rows+2,canvas.height/columns+2);
   for (let i = 0; i < rows; i++)
     for (let j = 0; j < columns; j++)
       for (let k = 0; k < snakeSize; k++)
+			{
         if (snake[k][0] == i && snake[k][1] == j)
+				{
+					//map[i][j] = 1;
           lienzo.fillRect(j*canvas.width/rows,i*canvas.height/columns,canvas.width/rows,canvas.height/columns);
+				}
+			}
+}
+
+function	drawMapElements()
+{
+	for (let i = 0; i < rows; i++)
+	for (let j = 0; j < columns; j++)
+	if (map[i][j] == 2)
+	lienzo.fillRect(j*canvas.width/rows,i*canvas.height/columns,canvas.width/rows,canvas.height/columns);
+}
+
+function	eatApple()
+{
+	if (map[snake[0][0]][snake[0][1]] == 2)
+	{
+		snakeSize++;
+		map[snake[0][0]][snake[0][1]] = 0;
+	}
 }
 
 window.addEventListener("load",initialize,false);
