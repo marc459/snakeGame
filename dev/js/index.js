@@ -10,7 +10,7 @@ let left = false;
 let canvas;
 let lienzo;
 let speed = 50; //lower is faster
-let	snakeSize = 1;
+let	snakeSize = 5;
 let	initialMovement = true;
 
 
@@ -22,13 +22,8 @@ function  initialize()
   for (let i = 0; i < rows; i++)
     map[i] = new Array(columns);
   for (let i = 0; i < rows; i++)
-  {
     for (let j = 0; j < columns; j++)
-    {
-			lienzo.strokeRect(j*canvas.width/rows,i*canvas.height/columns,canvas.width/rows,canvas.height/columns);
 			map[i][j] = 0;
-	  }
-  }
   for (let i = 0; i < maxSnake; i++)
     snake[i] = new Array(2);
   snake[0][0] = 5; //Initial position -Y- coordinate
@@ -101,9 +96,9 @@ function  snakeMovement()
     snake[0][1] = 0
   if (snake[0][1] < 0)
     snake[0][1] = columns - 1;
-	eatApple();
-	drawMapElements();
-	drawMovement();
+	//Death
+	if (map[snake[0][0]][snake[0][1]] == 1 && initialMovement == false)
+		alert("Has muerto");
 }
 
 function	eatApple()
@@ -143,6 +138,13 @@ function  drawMovement()
 			}
 }
 
+function	snakeGame()
+{
+	snakeMovement();
+	eatApple();
+	drawMapElements();
+	drawMovement();
+}
+
 window.addEventListener("load",initialize,false);
-window.addEventListener("load",drawMovement,false);
-setInterval(snakeMovement, speed);
+setInterval(snakeGame, speed);
