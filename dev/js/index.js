@@ -9,9 +9,22 @@ let down = false;
 let left = false;
 let canvas;
 let lienzo;
-let speed = 50; //lower is faster
-let	snakeSize = 3	;
+let speed = 500; //lower is faster
+let	snakeSize = 3;
+let apple = false;
 
+function  drawApple()
+{
+	let min = 0;
+	let max = 15;
+	let random1 = Math.floor(Math.random() * (max - min)) + min;
+	let random2 = Math.floor(Math.random() * (max - min)) + min;
+	if(!apple)
+	{
+		map[random1][random2] = 2;
+		apple = true;
+	}
+}
 
 function  initialize()
 {
@@ -32,10 +45,8 @@ function  initialize()
     snake[i] = new Array(2);
   snake[0][0] = 5; //Initial position -Y- coordinate
   snake[0][1] = 5; //Initial position -X- coordinate
-	map[3][3] = 2; //Apple test, erase later
-	map[4][3] = 2; //Apple test, erase later
-	map[10][5] = 2; //Apple test, erase later
-	map[3][8] = 2; //Apple test, erase later
+  
+  //Apple test
 }
 
 function  choseDirection(e)
@@ -104,10 +115,12 @@ function  drawMovement()
           lienzo.fillRect(j*canvas.width/rows,i*canvas.height/columns,canvas.width/rows,canvas.height/columns);
 				}
 			}
+	
 }
 
 function	drawMapElements()
 {
+	drawApple();
 	for (let i = 0; i < rows; i++)
 	for (let j = 0; j < columns; j++)
 	if (map[i][j] == 2)
@@ -120,6 +133,7 @@ function	eatApple()
 	{
 		snakeSize++;
 		map[snake[0][0]][snake[0][1]] = 0;
+		apple = false;
 	}
 }
 
